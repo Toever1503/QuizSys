@@ -14,15 +14,16 @@ import java.util.List;
 @Data
 @Table(name="question")
 @Builder
-public class QuestionEntity {
+public class QuestionEntity extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name="hasmore")
     private boolean hasmore;
+    @Column(name="content")
     private String content;
-    private String fileUpload;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     private SubjectEntity subjectEntity;
-    @OneToMany(mappedBy = "questionEntity" ,cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "questionEntity")
     private List<AnswerEntity> listaAnswerEntity;
 }
