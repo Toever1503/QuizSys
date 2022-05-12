@@ -20,6 +20,7 @@ public class ExamResultDto {
     private Integer wrongAns;
 
     private Float totalTime;
+
 }
 
 
