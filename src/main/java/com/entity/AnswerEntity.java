@@ -13,10 +13,11 @@ import javax.persistence.*;
 @Builder
 @Data
 @Table(name="answer")
-public class AnswerEntity {
+public class AnswerEntity extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "name_answer")
     private String name;
     private boolean isCorrect;
     @ManyToOne(cascade = CascadeType.PERSIST)
