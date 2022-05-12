@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/images")
+@RequestMapping("api/files")
 public class FileUpload {
 
     private final IImageService imageService;
