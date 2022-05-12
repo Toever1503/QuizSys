@@ -17,7 +17,7 @@ public class FileUtilsService implements WebMvcConfigurer {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
         folder.append(WebConfiguration.ROOT_CONTENT_SYS)
-                .append(year)
+                .append("/").append(year)
                 .append("/").append(month)
                 .append("/");
         File refreshFolder = new File(folder.toString());
