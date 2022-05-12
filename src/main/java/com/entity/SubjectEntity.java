@@ -19,11 +19,11 @@ public class SubjectEntity extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "time")
-    private LocalDateTime time;
-    @Column(name = "totalQuestion")
+    @Column(name = "max_time")
+    private Integer maxTime;
+    @Column(name = "total_question")
     private Integer totalQuestions;
-    @OneToMany(mappedBy = "subjectEntity",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "subjectEntity")
     private List<QuestionEntity> listQuestionEntity;
 
 }

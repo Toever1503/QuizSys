@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class RoleModel {
     private Long id;
     private String role;

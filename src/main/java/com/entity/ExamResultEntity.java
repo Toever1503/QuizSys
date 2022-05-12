@@ -1,6 +1,7 @@
 package com.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,13 +14,20 @@ import javax.persistence.Id;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ExamResultEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "exam_result_sequence", sequenceName = "exam_result_id")
-    private Long examRs_id;
-    private Long user_id;
-    private Long subject_id;
+    private Long examRsId;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity examedUser;
+
+    @ManyToOne
+    @JoinColumn(name = "subject_id")
+    private SubjectEntity examedSubject;
 
     @Column(name = "total_score")
     private Integer totalScore;

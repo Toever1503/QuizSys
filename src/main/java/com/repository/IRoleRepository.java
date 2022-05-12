@@ -1,5 +1,6 @@
 package com.repository;
 
+
 import com.entity.RoleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 

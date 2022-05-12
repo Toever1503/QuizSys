@@ -5,31 +5,29 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
 
 @MappedSuperclass
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class BaseEntity {
-    private String userCreate;
-    private String userUpdate;
-    private LocalDateTime timeCreate;
-    private LocalDateTime timeUpdate;
+    @Temporal(TemporalType.TIME)
+    private Date timeCreate;
+    @Temporal(TemporalType.TIME)
+    private Date timeUpdate;
+
     @PrePersist
-    public void prePersist(){
-        String createBy = Util.username;
-        this.userCreate =createBy;
-        this.timeCreate = LocalDateTime.now();
+    public void prePersist() {
+        this.timeCreate = Calendar.getInstance().getTime();
+        this.timeUpdate = this.timeCreate;
     }
 
     @PreUpdate
-    public void updatePersist(){
-        String createBy = Util.username;
-        this.userUpdate =createBy;
-        this.timeUpdate = LocalDateTime.now();
+    public void updatePersist() {
+        this.timeUpdate = Calendar.getInstance().getTime();
     }
 }
