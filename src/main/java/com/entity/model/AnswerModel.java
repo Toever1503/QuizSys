@@ -16,9 +16,4 @@ public class AnswerModel {
     private boolean isCorrect;
     private Long questionEntity;
 
-    public AnswerModel(AnswerEntity answerEntity){
-        this.id = answerEntity.getId();
-        this.name = answerEntity.getName();
-        this.isCorrect = answerEntity.get
-    }
 }

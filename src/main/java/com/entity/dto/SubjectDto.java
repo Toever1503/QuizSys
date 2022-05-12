@@ -17,7 +17,7 @@ public class SubjectDto {
     private Integer totalQuestions;
     private List<QuestionDto> questionDtoList;
 
-    public static SubjectDto EntityToDto(SubjectEntity subjectEntity) {
+    public static SubjectDto entityToDto(SubjectEntity subjectEntity) {
         return SubjectDto.builder()
                 .id(subjectEntity.getId())
                 .maxTime(subjectEntity.getMaxTime())
