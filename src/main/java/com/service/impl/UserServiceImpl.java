@@ -78,7 +78,7 @@ public class UserServiceImpl implements IUserService<UserEntity, UserModel, Long
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity userEntity = iUserRepository.findByUsername(username);
+        UserEntity userEntity = iUserRepository.findByUsernameOrEmail(username);
         if (userEntity == null) {
             throw new UsernameNotFoundException("User not found with username: " + username);
         }
