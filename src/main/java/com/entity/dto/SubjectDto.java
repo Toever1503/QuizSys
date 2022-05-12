@@ -22,7 +22,7 @@ public class SubjectDto {
                 .id(subjectEntity.getId())
                 .maxTime(subjectEntity.getMaxTime())
                 .totalQuestions(subjectEntity.getTotalQuestions())
-                .questionDtoList(subjectEntity.getListQuestionEntity().stream().map(QuestionDto::EntityToDto).collect(java.util.stream.Collectors.toList()) == null ? null : subjectEntity.getListQuestionEntity().stream().map(QuestionDto::EntityToDto).collect(java.util.stream.Collectors.toList()))
+                .questionDtoList(subjectEntity.getListQuestionEntity() == null ? null : subjectEntity.getListQuestionEntity().stream().map(QuestionDto::EntityToDto).collect(java.util.stream.Collectors.toList()))
                 .build();
     }
 }

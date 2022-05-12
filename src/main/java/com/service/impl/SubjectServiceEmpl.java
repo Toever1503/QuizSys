@@ -38,6 +38,11 @@ public class SubjectServiceEmpl implements ISubjectService {
     }
 
     @Override
+    public List<SubjectEntity> add(List<SubjectModel> subjectModels) {
+        return subjectModels.stream().map(this::add).collect(java.util.stream.Collectors.toList());
+    }
+
+    @Override
     public SubjectEntity update(SubjectModel model) {
         SubjectEntity en  = findById(model.getId());
         en.setMaxTime(model.getMaxTime());
