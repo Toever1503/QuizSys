@@ -1,6 +1,8 @@
 package com.entity.dto;
 
+import com.entity.ExamResultEntity;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,10 +10,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ExamResultDto {
-    private Long examRs_id;
-    private Long user_id;
-    private Long subject_id;
+    private Long examRsId;
+    private UserDTO examedUser;
+    private Long examedSubject;
 
     private Integer totalScore;
 
@@ -21,6 +24,18 @@ public class ExamResultDto {
 
     private Float totalTime;
 
+    public static ExamResultDto toDto(ExamResultEntity examResult) {
+        if (examResult == null) throw new IllegalArgumentException("ExamResultEntity is null");
+        return ExamResultDto.builder()
+                .examRsId(examResult.getExamRsId())
+//                .examed_user
+//                .examed_subject
+                .totalScore(examResult.getTotalScore())
+                .correctAns(examResult.getCorrectAns())
+                .wrongAns(examResult.getWrongAns())
+                .totalTime(examResult.getTotalTime())
+                .build();
+    }
 }
 
 

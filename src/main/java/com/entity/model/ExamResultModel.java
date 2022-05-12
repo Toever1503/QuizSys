@@ -1,6 +1,7 @@
 package com.entity.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,10 +11,14 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ExamResultModel {
-    private Long examRs_id;
-    private Long user_id;
-    private Long subject_id;
+    private Long examRsId;
+
+    private Long examedUser;
+
+    private Long examedSubject;
+
     private Integer totalScore;
     private Integer correctAns;
     private Integer wrongAns;

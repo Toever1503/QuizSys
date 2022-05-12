@@ -23,6 +23,10 @@ public class UserEntity {
     private String fullname;
     private String email;
     private String avatar;
+    private boolean enabled;
+    @Column(name = "reset_password_token")
+    private String resetPassWordToken;
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",

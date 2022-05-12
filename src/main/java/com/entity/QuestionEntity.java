@@ -20,10 +20,10 @@ public class QuestionEntity extends BaseEntity{
     private Long id;
     @Column(name="hasmore")
     private boolean hasmore;
-    @Column(name="name_subject")
-    private String nameSubject;
+    @Column(name="content")
+    private String content;
     @ManyToOne
     private SubjectEntity subjectEntity;
-    @OneToMany(mappedBy = "questionEntity" ,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "questionEntity")
     private List<AnswerEntity> listaAnswerEntity;
 }

@@ -23,8 +23,6 @@ public class SubjectEntity extends BaseEntity{
     private Integer maxTime;
     @Column(name = "total_question")
     private Integer totalQuestions;
-    @Column(name="content")
-    private String content;
     @OneToMany(mappedBy = "subjectEntity")
     private List<QuestionEntity> listQuestionEntity;
 
