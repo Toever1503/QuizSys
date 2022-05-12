@@ -18,7 +18,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Converter;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -34,12 +37,13 @@ public class UserServiceImpl implements IUserService<UserEntity, UserModel, Long
 
     @Override
     public List<UserEntity> findAll() {
-
         return null;
     }
 
     @Override
     public Page<UserEntity> findAll(Pageable page) {
+        Page<UserEntity> userEntities = iUserRepository.findAll(page);
+
         return null;
     }
 
