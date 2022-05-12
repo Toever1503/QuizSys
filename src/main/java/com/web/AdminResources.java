@@ -6,6 +6,7 @@ import com.entity.model.UserModel;
 import com.repository.IUserRepository;
 import com.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -55,11 +56,8 @@ public class AdminResources {
         return ResponseDto.of(iUserService.update(userModel),"Update User");
     }
 
-    @GetMapping("/user/get-all")
-    public ResponseEntity<?> getAll(){
-        List<UserModel> userModels = iUserService.findAll();
-        List<UserDTO> dtoList = iUserService.findAll();
-
-        return ResponseEntity.ok().body(null);
+    @GetMapping("/user/find-all")
+    public Object getAll(Pageable pageable){
+        return ResponseDto.of(iUserService.findAll(pageable),"Find all User");
     }
 }

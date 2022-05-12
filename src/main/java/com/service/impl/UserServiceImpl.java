@@ -24,6 +24,7 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 
 @Service
 public class UserServiceImpl implements IUserService<UserDTO, UserModel, Long>, UserDetailsService {
@@ -45,8 +46,20 @@ public class UserServiceImpl implements IUserService<UserDTO, UserModel, Long>, 
     @Override
     public Page<UserDTO> findAll(Pageable page) {
         Page<UserEntity> userEntities = iUserRepository.findAll(page);
+        Page<UserDTO> userDTOS = userEntities.map(new Function<UserEntity, UserDTO>() {
+            @Override
+            public UserDTO apply(UserEntity userEntity) {
+                return UserDTO.builder()
+                        .id(userEntity.getId())
+                        .username(userEntity.getUsername())
+                        .email(userEntity.getEmail())
+                        .fullname(userEntity.getFullname())
+                        .avatar(userEntity.getAvatar())
+                        .build();
+            }
+        });
 
-        return null;
+        return userDTOS;
     }
 
     @Override
