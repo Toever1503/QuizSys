@@ -36,7 +36,7 @@ public class WebConfiguration implements WebMvcConfigurer {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://10.0.0.73:8080", "http://10.0.0.100:8080", "http://165.22.48.208")
+                        .allowedOrigins("http://10.0.0.93:3000/", "http://10.0.0.93", "http://165.22.48.208")
                         .allowCredentials(true)
                         .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS");
             }
@@ -45,8 +45,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/images/**").addResourceLocations("file:".concat(ROOT_CONTENT_SYS));
-        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/images/**").addResourceLocations("file:".concat(ROOT_CONTENT_SYS + "/"));
     }
 
     @Bean
@@ -55,7 +54,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     }
 
 
-//    @Bean
+    //    @Bean
 //    public JavaMailSender javaMailSender() {
 //        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 //        mailSender.setHost("smtp.mailtrap.io");
@@ -70,7 +69,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 //        return mailSender;
 //    }
     @Bean
-    public JavaMailSender getMailSender(){
+    public JavaMailSender getMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("email-smtp.us-west-1.amazonaws.com");
         mailSender.setPort(587);
