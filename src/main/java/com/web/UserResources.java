@@ -8,21 +8,19 @@ import com.jwt.payload.request.RegisterRequest;
 import com.jwt.payload.response.LoginResponse;
 import com.repository.IRoleRepository;
 import com.repository.IUserRepository;
-import com.service.UserDetailsImpl;
+import com.service.impl.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
 @RestController
 @RequestMapping("/api")
 public class UserResources {
@@ -70,4 +68,6 @@ public class UserResources {
         iUserRepository.save(new UserEntity(null,request.getUsername(),passwordEncoder.encode(request.getPassword()),null,null,null,listRoleUser));
         return request;
     }
+
+
 }

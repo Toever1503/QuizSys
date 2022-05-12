@@ -1,7 +1,7 @@
 package com.jwt;
 
 import com.repository.IUserRepository;
-import com.service.UserDetailsServiceImpl;
+import com.service.impl.UserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

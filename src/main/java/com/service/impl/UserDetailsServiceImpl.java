@@ -1,4 +1,4 @@
-package com.service;
+package com.service.impl;
 
 import com.entity.UserEntity;
 import com.repository.IUserRepository;
