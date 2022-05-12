@@ -37,6 +37,10 @@ public class UserDetailsImpl implements UserDetails {
         return userEntity.getUsername();
     }
 
+    public String getEmail() {
+        return userEntity.getEmail();
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
