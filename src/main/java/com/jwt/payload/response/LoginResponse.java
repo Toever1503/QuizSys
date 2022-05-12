@@ -1,4 +1,4 @@
-package com.payload.response;
+package com.jwt.payload.response;
 
 
 import lombok.AllArgsConstructor;
