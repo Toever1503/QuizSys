@@ -13,6 +13,7 @@ public interface IBaseService<T, M, K> {
     T findById(K id);
 
     T add(M model);
+    List<T> add(List<M> model);
 
     T update(M model);
 

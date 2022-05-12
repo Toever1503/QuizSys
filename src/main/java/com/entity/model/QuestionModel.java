@@ -1,6 +1,7 @@
 package com.entity.model;
 
 import com.entity.QuestionEntity;
+import com.entity.SubjectEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,16 +17,17 @@ public class QuestionModel {
     private Long id;
     private boolean hasmore;
     private String content;
-    private Long subjectEntity;
+    private SubjectModel subjectModel;
     private List<AnswerModel> anses;
 
-    public static QuestionModel build(QuestionEntity questionEntity) {
-        return QuestionModel.builder()
-                .id(questionEntity.getId())
-                .hasmore(questionEntity.isHasmore())
-                .content(questionEntity.getContent())
-                .subjectEntity(questionEntity.getSubjectEntity().getId())
-                .anses(AnswerModel.build(questionEntity.getAnses()))
+    public static QuestionEntity modelToEntity(QuestionModel questionModel) {
+
+        return QuestionEntity.builder()
+                .id(questionModel.getId())
+                .hasmore(questionModel.isHasmore())
+                .content(questionModel.getContent())
+                .subjectEntity(SubjectModel.modelToEntity(questionModel.getSubjectModel()))
+                .listaAnswerEntity(questionModel.anses.stream().map(AnswerModel::toEntity).collect(java.util.stream.Collectors.toList()) == null ? null : questionModel.anses.stream().map(AnswerModel::toEntity).collect(java.util.stream.Collectors.toList()))
                 .build();
     }
 }
