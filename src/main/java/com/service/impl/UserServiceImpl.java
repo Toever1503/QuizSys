@@ -76,6 +76,11 @@ public class UserServiceImpl implements IUserService<UserEntity, UserModel, Long
     }
 
     @Override
+    public List<UserEntity> add(List<UserModel> model) {
+        return null;
+    }
+
+    @Override
     public UserEntity update(UserModel model) {
         return null;
     }

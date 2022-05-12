@@ -36,7 +36,9 @@ public class WebConfiguration implements WebMvcConfigurer {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://10.0.0.93:3000/", "http://10.0.0.93", "http://165.22.48.208")
+                        .allowedOriginPatterns()
+                        .allowedOrigins("http://10.0.0.93:3000/", "http://10.0.0.93", "http://192.168.144.1:3000", "" +
+                                "http://192.168.144.1")
                         .allowCredentials(true)
                         .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS");
             }
@@ -54,7 +56,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public JavaMailSender getMailSender(){
+    public JavaMailSender getMailSender() {
 
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
