@@ -2,6 +2,7 @@ package com.service.impl;
 
 import com.entity.RoleEntity;
 import com.entity.UserEntity;
+import com.entity.dto.UserDTO;
 import com.entity.model.UserModel;
 import com.repository.IRoleRepository;
 import com.repository.IUserRepository;
@@ -25,7 +26,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements IUserService<UserEntity, UserModel, Long>, UserDetailsService {
+public class UserServiceImpl implements IUserService<UserDTO, UserModel, Long>, UserDetailsService {
     @Autowired
     IUserRepository iUserRepository;
     @Autowired
@@ -36,25 +37,25 @@ public class UserServiceImpl implements IUserService<UserEntity, UserModel, Long
     PasswordEncoder passwordEncoder;
 
     @Override
-    public List<UserEntity> findAll() {
+    public List<UserDTO> findAll() {
 
         return null;
     }
 
     @Override
-    public Page<UserEntity> findAll(Pageable page) {
+    public Page<UserDTO> findAll(Pageable page) {
         Page<UserEntity> userEntities = iUserRepository.findAll(page);
 
         return null;
     }
 
     @Override
-    public UserEntity findById(Long id) {
+    public UserDTO findById(Long id) {
         return null;
     }
 
     @Override
-    public UserEntity add(UserModel model) {
+    public UserDTO add(UserModel model) {
         UserEntity userEntity = UserEntity.builder()
                 .id(model.getId())
                 .username(model.getUsername())
@@ -69,19 +70,40 @@ public class UserServiceImpl implements IUserService<UserEntity, UserModel, Long
             listRole.add(iRoleRepository.findById(role).get());
         });
         userEntity.setRoleEntityList(listRole);
-        iUserRepository.save(userEntity);
-        return userEntity;
-
+        return UserDTO.builder()
+                .id(iUserRepository.save(userEntity).getId())
+                .username(model.getUsername())
+                .email(model.getEmail())
+                .fullname(model.getFullname())
+                .avatar(model.getAvatar())
+                .roleIdList(model.getRoleIdList())
+                .build();
     }
 
     @Override
-    public List<UserEntity> add(List<UserModel> model) {
+    public List<UserDTO> add(List<UserModel> model) {
         return null;
     }
 
     @Override
-    public UserEntity update(UserModel model) {
-        return null;
+    public UserDTO update(UserModel model) {
+        UserEntity userEntity = iUserRepository.findById(model.getId()).get();
+        userEntity.setFullname(model.getFullname());
+        userEntity.setAvatar(model.getAvatar());
+
+        List<RoleEntity> listRole = new ArrayList<>();
+        model.getRoleIdList().stream().forEach(role ->{
+            listRole.add(iRoleRepository.findById(role).get());
+        });
+        userEntity.setRoleEntityList(listRole);
+        return UserDTO.builder()
+                .id(iUserRepository.save(userEntity).getId())
+                .username(userEntity.getUsername())
+                .fullname(userEntity.getFullname())
+                .avatar(userEntity.getAvatar())
+                .email(userEntity.getEmail())
+                .roleIdList(model.getRoleIdList())
+                .build();
     }
 
     @Override

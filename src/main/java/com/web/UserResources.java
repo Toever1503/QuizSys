@@ -69,7 +69,8 @@ public class UserResources {
     @PostMapping("/register")
     public Object register(@RequestBody RegisterRequest request) throws Exception {
         UserEntity userEntity = iUserRepository.findByUsernameOrEmail(request.getUsername());
-        if (userEntity != null) {
+        if (iUserRepository.findByUsernameOrEmail(request.getUsername()) != null
+                || iUserRepository.findByUsernameOrEmail(request.getEmail()) != null){
             throw new Exception("User already exists");
         } else {
             RoleEntity roleUser = iRoleRepository.getById(3L);
