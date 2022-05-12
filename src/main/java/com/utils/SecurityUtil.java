@@ -57,6 +57,7 @@ public class SecurityUtil implements ApplicationListener<ContextRefreshedEvent> 
                     "ADMINISTRATOR",
                     "administrator@gmail.com",
                     null,
+                    null,
                     listRoleAdministrator ));
         }
         if (iUserRepository.findByUsername("ADMIN") == null){
@@ -67,6 +68,7 @@ public class SecurityUtil implements ApplicationListener<ContextRefreshedEvent> 
                     "ADMIN",
                     "admin@gmail.com",
                     null,
+                    null,
                     listRoleAdmin ));
         }
         if (iUserRepository.findByUsername("USER") == null){
@@ -76,6 +78,7 @@ public class SecurityUtil implements ApplicationListener<ContextRefreshedEvent> 
                     passwordEncoder.encode("123456"),
                     "USER",
                     "user@gmail.com",
+                    null,
                     null,
                     listRoleUser ));
         }

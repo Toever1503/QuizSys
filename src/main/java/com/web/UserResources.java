@@ -61,11 +61,17 @@ public class UserResources {
                 .build();
     }
     @PostMapping("/register")
-    public RegisterRequest register(@RequestBody RegisterRequest request){
-        RoleEntity roleUser = iRoleRepository.getById(3L);
-        List<RoleEntity> listRoleUser = new ArrayList<>();
-        listRoleUser.add(roleUser);
-        iUserRepository.save(new UserEntity(null,request.getUsername(),passwordEncoder.encode(request.getPassword()),null,null,null,listRoleUser));
+    public RegisterRequest register(@RequestBody RegisterRequest request) throws Exception {
+        UserEntity userEntity = iUserRepository.findByUsernameOrEmail(request.getUsername());
+        if(userEntity != null){
+            throw new Exception("User already exists");
+        }else{
+            RoleEntity roleUser = iRoleRepository.getById(3L);
+            List<RoleEntity> listRoleUser = new ArrayList<>();
+            listRoleUser.add(roleUser);
+            iUserRepository.save(new UserEntity(null,request.getUsername(),passwordEncoder.encode(request.getPassword()),null,request.getUsername()+"@gmail.com",null,null,listRoleUser));
+
+        }
         return request;
     }
 

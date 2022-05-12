@@ -41,4 +41,34 @@ public class MailServiceImpl implements IMailService {
 
         javaMailSender.send(mailMessage);
     }
+    @Override
+    public void  sendTextMail(String from,
+                              String toAddress,
+                              String subject,
+                              String content,
+                              String tokenString){
+        final MimeMessage mesasge = this.javaMailSender.createMimeMessage();
+        final MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mesasge,"UTF-8");
+        try {
+            mimeMessageHelper.setTo(toAddress);
+            try {
+                mimeMessageHelper.setFrom(from,"Reset Password");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            mimeMessageHelper.setSubject(subject);
+            String resetPasswordString = "http://localhost:8088/reset_password?token=" + tokenString;
+            String textContent = "<h3> " +content+ " </h3>"
+                    + "<p>Click the link below to change your password:</p>"
+                    + "<p><a href=\"" + resetPasswordString + "\">Change my password</a></p>";
+            mimeMessageHelper.setText(textContent,true);
+
+            this.javaMailSender.send(mesasge);
+
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+
+        }
+    }
 }
