@@ -20,14 +20,5 @@ public class SubjectModel {
     private Integer maxTime;
     private Integer totalQuestions;
     private List<QuestionModel> questionModels;
-
-    public static SubjectEntity modelToEntity(SubjectModel subjectModel) {
-        if(subjectModel == null) throw new IllegalArgumentException("SubjectModel is null");
-        return SubjectEntity.builder()
-                .id(subjectModel.getId())
-                .maxTime(subjectModel.getMaxTime())
-                .totalQuestions(subjectModel.getTotalQuestions())
-                .listQuestionEntity(subjectModel.questionModels == null ? null : subjectModel.questionModels.stream().map(QuestionModel::modelToEntity).collect(Collectors.toList()))
-                .build();
-    }
+    private String nameSubject;
 }

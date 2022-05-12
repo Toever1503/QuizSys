@@ -12,4 +12,6 @@ public interface IAnswerRepository extends JpaRepository<AnswerEntity, Long> {
 
     @Query("select p from AnswerEntity p where p.id in :ids")
     List<AnswerEntity> getAllByQuestionId(@Param("ids") List<Long> ids);
+
+    void deleteAllByIdNotIn(List<Long> ids);
 }

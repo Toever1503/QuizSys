@@ -15,11 +15,8 @@ public class ExamResultModel {
     private Long user_id;
     private Long subject_id;
     private Integer totalScore;
-
     private Integer correctAns;
-
     private Integer wrongAns;
-
     private Float totalTime;
 }
 

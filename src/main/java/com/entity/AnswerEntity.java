@@ -19,8 +19,8 @@ public class AnswerEntity extends BaseEntity{
     private Long id;
     @Column(name = "name_answer")
     private String name;
-    @Column(name = "correct")
+    @Column(name = "is_correct")
     private boolean isCorrect;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     private QuestionEntity questionEntity;
 }

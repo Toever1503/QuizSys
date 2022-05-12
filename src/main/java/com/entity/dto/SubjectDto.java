@@ -15,14 +15,16 @@ public class SubjectDto {
     private Long id;
     private Integer maxTime;
     private Integer totalQuestions;
-    private List<QuestionDto> questionDtoList;
+    private String nameSubject;
+    private List<QuestionDto> questionDtos;
 
     public static SubjectDto entityToDto(SubjectEntity subjectEntity) {
         return SubjectDto.builder()
                 .id(subjectEntity.getId())
                 .maxTime(subjectEntity.getMaxTime())
                 .totalQuestions(subjectEntity.getTotalQuestions())
-                .questionDtoList(subjectEntity.getListQuestionEntity() == null ? null : subjectEntity.getListQuestionEntity().stream().map(QuestionDto::EntityToDto).collect(java.util.stream.Collectors.toList()))
+                .nameSubject(subjectEntity.getContent())
+                .questionDtos(subjectEntity.getListQuestionEntity() == null ? null : subjectEntity.getListQuestionEntity().stream().map(QuestionDto::EntityToDto).collect(java.util.stream.Collectors.toList()))
                 .build();
     }
 }

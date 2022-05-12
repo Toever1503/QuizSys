@@ -2,6 +2,8 @@ package com.service.impl;
 
 import com.entity.AnswerEntity;
 import com.entity.QuestionEntity;
+import com.entity.SubjectEntity;
+import com.entity.model.AnswerModel;
 import com.entity.model.QuestionModel;
 import com.repository.IAnswerRepository;
 import com.repository.IQuestionRepository;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class QuestionServiceImpl implements com.service.QuestionService {
 
@@ -23,6 +27,13 @@ public class QuestionServiceImpl implements com.service.QuestionService {
     @Autowired
     IAnswerRepository iAnswerRepository;
 
+    AnswerEntity toEntity(AnswerModel answerModel){
+        AnswerEntity answer = new AnswerEntity();
+        answer.setId(answerModel.getId());
+        answer.setName(answerModel.getName());
+        answer.setCorrect(answerModel.isCorrect());
+        return answer;
+    }
     @Override
     public List<QuestionEntity> findAll() {
         return questionRepository.findAll();
@@ -38,52 +49,74 @@ public class QuestionServiceImpl implements com.service.QuestionService {
         return questionRepository.findById(id).get();
     }
 
+    public QuestionEntity toEntity(QuestionModel questionModel) {
+        QuestionEntity questionEntity = new QuestionEntity();
+        questionEntity.setId(questionModel.getId());
+        questionEntity.setNameSubject(questionModel.getNameSubject());
+        questionEntity.setHasmore(questionModel.isHasmore());
+        questionEntity.setSubjectEntity(iSubjectRepository.findById(questionModel.getIdsubject()).get());
+        return questionEntity;
+    }
+
     @Override
     public QuestionEntity add(QuestionModel model) {
-        QuestionEntity questionEntity = new QuestionEntity();
-        questionEntity.setContent(model.getContent());
-        questionEntity.setHasmore(model.isHasmore());
-        questionEntity.setSubjectEntity(iSubjectRepository.findById(model.getSubjectEntity()).get());
-        List<AnswerEntity> list = new ArrayList<>();
-        if (model.getAnses() != null){
-            List<Long> ids = new ArrayList<>();
-            model.getAnses().stream().forEach(x->ids.add(x.getId()));
-            list = iAnswerRepository.getAllByQuestionId(ids);
-        }
+        SubjectEntity subjectEntity = this.iSubjectRepository.findById(model.getIdsubject())
+                .orElseThrow(() -> new RuntimeException("Subject not found"));
+        QuestionEntity questionEntity = toEntity(model);
+        List<AnswerEntity> ans = model.getAnses().stream().map(ansModel -> {
+            AnswerEntity answerEntity = toEntity(ansModel);
+            answerEntity.setQuestionEntity(questionEntity);
+            return answerEntity;
+        }).collect(Collectors.toList());
+        questionEntity.setSubjectEntity(subjectEntity);
+        questionEntity.setListaAnswerEntity(ans);
 
-        questionEntity.setListaAnswerEntity(list);
         return questionRepository.save(questionEntity);
     }
 
     @Override
     public List<QuestionEntity> add(List<QuestionModel> model) {
-        return null;
+        return model.stream().map(this::add).collect(Collectors.toList());
     }
 
     @Override
     public QuestionEntity update(QuestionModel model) {
-        QuestionEntity questionEntity = questionRepository.findById(model.getId()).get();
-        questionEntity.setContent(model.getContent());
-        questionEntity.setHasmore(model.isHasmore());
-        questionEntity.setSubjectEntity(iSubjectRepository.findById(model.getSubjectEntity()).get());
-        List<AnswerEntity> list = new ArrayList<>();
-        if (questionEntity.getSubjectEntity() != null){
-            List<Long> ids = new ArrayList<>();
-            model.getAnses().stream().forEach(x->ids.add(x.getId()));
-            list = iAnswerRepository.getAllByQuestionId(ids);
-        }
+        QuestionEntity orginal = questionRepository.findById(model.getId())
+                .orElseThrow(() -> new RuntimeException("Ques not found"));
+        SubjectEntity subjectEntity = this.iSubjectRepository.findById(model.getIdsubject())
+                .orElseThrow(() -> new RuntimeException("Subject not found"));
 
-        questionEntity.setListaAnswerEntity(list);
-        return questionRepository.save(questionEntity);
+        List<Long> ansIds = new ArrayList<>();
+        List<AnswerEntity> ans = model.getAnses().stream().map(ansModel -> {
+            AnswerEntity answerEntity = toEntity(ansModel);
+            answerEntity.setQuestionEntity(orginal);
+            if (ansModel.getId() != null)
+                ansIds.add(ansModel.getId());
+            return answerEntity;
+        }).collect(Collectors.toList());
+        if (!ansIds.isEmpty())
+            this.iAnswerRepository.deleteAllByIdNotIn(ansIds);
+        orginal.setListaAnswerEntity(ans);
+        orginal.setSubjectEntity(subjectEntity);
+
+        orginal.setHasmore(model.isHasmore());
+        orginal.setNameSubject(model.getNameSubject());
+        orginal.setSubjectEntity(subjectEntity);
+        return questionRepository.save(orginal);
     }
 
     @Override
     public boolean deleteById(Long id) {
-        try{
+        try {
             questionRepository.deleteById(id);
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public List<QuestionEntity> updateBatch(List<QuestionModel> models) {
+        return models.stream().map(this::update).collect(Collectors.toList());
     }
 }

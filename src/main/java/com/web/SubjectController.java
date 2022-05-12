@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/subjects")
 public class SubjectController {
+
     private SubjectServiceEmpl subjectServiceEmpl;
 
     public SubjectController(SubjectServiceEmpl subjectServiceEmpl) {
