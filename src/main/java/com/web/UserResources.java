@@ -62,6 +62,7 @@ public class UserResources {
                 .build();
     }
 
+
     @Transactional
     @PostMapping("/register")
     public RegisterRequest register(@RequestBody RegisterRequest request) throws Exception {
@@ -80,7 +81,8 @@ public class UserResources {
                     request.getEmail(),
                     null,
                     true,
-                    null, listRoleUser));
+                    null,listRoleUser));
+
         }
         return request;
     }

@@ -53,41 +53,22 @@ public class WebConfiguration implements WebMvcConfigurer {
         return new BCryptPasswordEncoder();
     }
 
-
-    //    @Bean
-//    public JavaMailSender javaMailSender() {
-//        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-//        mailSender.setHost("smtp.mailtrap.io");
-//        mailSender.setPort(465);
-//
-//        mailSender.setUsername("chiphongteo1123@gmail.com");
-//        mailSender.setPassword("phongcao123");
-//
-//        Properties props = mailSender.getJavaMailProperties();
-//        props.setProperty("mail.smtp.auth", "true");
-//
-//        return mailSender;
-//    }
     @Bean
-    public JavaMailSender getMailSender() {
+    public JavaMailSender getMailSender(){
+
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("email-smtp.us-west-1.amazonaws.com");
+        mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
-        mailSender.setUsername("AKIA5DWEWGJIHJJZGCXN");
-        mailSender.setPassword("BP+kKjV7GuP8WGRY3Congrx7PxS+CQ2r2vASBCXvx/Us");
-//        mailSender.setHost("smtp.gmail.com");
-//        mailSender.setPort(587);
-//        mailSender.setUsername("chiphongteo1123@gmail.com");
-//        mailSender.setPassword("phongcao123");
 
-        Properties javaMailProperties = new Properties();
-        javaMailProperties.put("mail.transport.protocol", "smtp");
-        javaMailProperties.put("mail.smtp.auth", true);
-        javaMailProperties.put("mail.smtp.starttls.enable", "true");
-        javaMailProperties.put("mail.debug", "false");
-        javaMailProperties.put("mail.smtp.ssl.trust", "*");
+        mailSender.setUsername("chiphongteo1123@gmail.com");
+        mailSender.setPassword("phongcao123");
 
-        mailSender.setJavaMailProperties(javaMailProperties);
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "true");
 
         return mailSender;
     }
