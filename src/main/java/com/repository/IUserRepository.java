@@ -11,4 +11,5 @@ public interface IUserRepository extends JpaRepository<UserEntity,Long> {
     UserEntity findByResetPassWordToken(String token);
     @Query("SELECT u FROM UserEntity u WHERE u.username = :usename or u.email = :usename ")
     UserEntity findByUsernameOrEmail(@Param(value = "usename") String username);
+
 }
