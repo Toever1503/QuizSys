@@ -25,7 +25,7 @@ public class SubjectDto {
                 .maxTime(subjectEntity.getMaxTime())
                 .totalQuestions(subjectEntity.getTotalQuestions())
                 .subjectName(subjectEntity.getSubjectName())
-                .listQuestionEntity(subjectEntity.getListQuestionEntity() == null ? null : subjectEntity.getListQuestionEntity().stream().map(QuestionDto::EntityToDto).collect(java.util.stream.Collectors.toList()))
+//                .listQuestionEntity(subjectEntity.getListQuestionEntity() == null ? null : subjectEntity.getListQuestionEntity().stream().map(QuestionDto::EntityToDto).collect(java.util.stream.Collectors.toList()))
                 .build();
     }
 }
