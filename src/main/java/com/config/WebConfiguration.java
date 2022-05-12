@@ -36,7 +36,7 @@ public class WebConfiguration implements WebMvcConfigurer {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://10.0.0.73:8080", "http://10.0.0.100:8080", "http://165.22.48.208")
+                        .allowedOrigins("http://10.0.0.93:3000/", "http://10.0.0.93", "http://165.22.48.208")
                         .allowCredentials(true)
                         .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS");
             }
@@ -45,8 +45,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/images/**").addResourceLocations("file:".concat(ROOT_CONTENT_SYS));
-        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/images/**").addResourceLocations("file:".concat(ROOT_CONTENT_SYS + "/"));
     }
 
     @Bean
@@ -63,6 +62,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 
         mailSender.setUsername("chiphongteo1123@gmail.com");
         mailSender.setPassword("phongcao123");
+
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

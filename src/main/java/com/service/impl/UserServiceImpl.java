@@ -22,6 +22,7 @@ import javax.persistence.Converter;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
+
 import java.util.List;
 
 @Service
@@ -37,6 +38,7 @@ public class UserServiceImpl implements IUserService<UserEntity, UserModel, Long
 
     @Override
     public List<UserEntity> findAll() {
+
         return null;
     }
 
@@ -70,6 +72,7 @@ public class UserServiceImpl implements IUserService<UserEntity, UserModel, Long
         userEntity.setRoleEntityList(listRole);
         iUserRepository.save(userEntity);
         return userEntity;
+
     }
 
     @Override

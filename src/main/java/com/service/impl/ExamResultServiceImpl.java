@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class EXamResultServiceImpl implements IExamResultService {
+public class ExamResultServiceImpl implements IExamResultService {
     private final ExamResultRepository examResultRepository;
 
-    public EXamResultServiceImpl(ExamResultRepository examResultRepository) {
+    public ExamResultServiceImpl(ExamResultRepository examResultRepository) {
         this.examResultRepository = examResultRepository;
     }
 
@@ -54,6 +54,11 @@ public class EXamResultServiceImpl implements IExamResultService {
         //        examResultEntity.setExamed_user();
 //        examResultEntity.setExamed_subject();
         return this.examResultRepository.save(examResultEntity);
+    }
+
+    @Override
+    public List<ExamResultEntity> add(List<ExamResultModel> model) {
+        return null;
     }
 
     @Override

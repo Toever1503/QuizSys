@@ -15,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class UserResources {
 
 
     @PostMapping("/login")
-    public LoginResponse getResponseAfterLogin(@RequestBody LoginRequest loginRequest){
+    public LoginResponse getResponseAfterLogin(@RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(),
@@ -61,12 +62,14 @@ public class UserResources {
                 .build();
     }
 
+
+    @Transactional
     @PostMapping("/register")
     public RegisterRequest register(@RequestBody RegisterRequest request) throws Exception {
         UserEntity userEntity = iUserRepository.findByUsernameOrEmail(request.getUsername());
-        if(userEntity != null){
+        if (userEntity != null) {
             throw new Exception("User already exists");
-        }else{
+        } else {
             RoleEntity roleUser = iRoleRepository.getById(3L);
             List<RoleEntity> listRoleUser = new ArrayList<>();
             listRoleUser.add(roleUser);
@@ -79,6 +82,7 @@ public class UserResources {
                     null,
                     true,
                     null,listRoleUser));
+
         }
         return request;
     }
