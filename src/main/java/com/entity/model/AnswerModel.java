@@ -11,14 +11,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class AnswerModel {
+
     private Long id;
     private String name;
     private boolean isCorrect;
     private Long questionEntity;
 
-    public AnswerModel(AnswerEntity answerEntity){
-        this.id = answerEntity.getId();
-        this.name = answerEntity.getName();
-        this.isCorrect = answerEntity.get
+    public static AnswerEntity toEntity(AnswerModel answerModel){
+        if(answerModel == null) throw new IllegalArgumentException("AnswerModel null");
+        return AnswerEntity.builder()
+                .id(answerModel.getId())
+                .isCorrect(answerModel.isCorrect())
+                .name(answerModel.getName())
+                .build();
     }
 }

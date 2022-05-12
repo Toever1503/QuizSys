@@ -32,6 +32,11 @@ public class EXamResultServiceImpl implements IExamResultService {
     }
 
     @Override
+    public List<ExamResultEntity> add(List<ExamResultModel> model) {
+        return null;
+    }
+
+    @Override
     public ExamResultEntity update(ExamResultModel model) {
         return null;
     }

@@ -17,4 +17,5 @@ public class QuestionModel {
     private String content;
     private Long subjectEntity;
     private List<AnswerModel> anses;
+
 }
