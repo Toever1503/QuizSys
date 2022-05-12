@@ -1,5 +1,6 @@
 package com.entity.model;
 
+import com.entity.QuestionEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,4 +18,14 @@ public class QuestionModel {
     private String content;
     private Long subjectEntity;
     private List<AnswerModel> anses;
+
+    public static QuestionModel build(QuestionEntity questionEntity) {
+        return QuestionModel.builder()
+                .id(questionEntity.getId())
+                .hasmore(questionEntity.isHasmore())
+                .content(questionEntity.getContent())
+                .subjectEntity(questionEntity.getSubjectEntity().getId())
+                .anses(AnswerModel.build(questionEntity.getAnses()))
+                .build();
+    }
 }

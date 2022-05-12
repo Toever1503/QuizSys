@@ -33,7 +33,8 @@ public class SubjectServiceEmpl implements ISubjectService {
 
     @Override
     public SubjectEntity add(SubjectModel model) {
-        return subjectRepository.save(SubjectModel.modelToEntity(model));
+        SubjectEntity subjectEntity = SubjectModel.modelToEntity(model);
+        return subjectRepository.save(subjectEntity);
     }
 
     @Override
