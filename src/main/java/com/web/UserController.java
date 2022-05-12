@@ -55,18 +55,12 @@ public class UserController {
 
         return LoginResponse.builder()
                 .id(userDetails.getUserEntity().getId())
-                .email(userDetails.getUsername())
+                .username(userDetails.getUsername())
+                .email(userDetails.getEmail())
                 .accessToken(jwtToken)
                 .tokenType(new LoginResponse().getTokenType())
                 .role(roles)
                 .build();
-    }
-    @GetMapping("/addrole")
-    public String addRoles(){
-        iRoleRepository.save(new RoleEntity(1L,"ROLE_ADMINISTRATOR",null));
-        iRoleRepository.save(new RoleEntity(2L,"ROLE_ADMIN",null));
-        iRoleRepository.save(new RoleEntity(3L,"ROLE_USER",null));
-        return null;
     }
     @PostMapping("/register")
     public RegisterRequest register(@RequestBody RegisterRequest request){
