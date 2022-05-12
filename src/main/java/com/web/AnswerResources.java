@@ -1,9 +1,13 @@
 package com.web;
 
+import com.entity.AnswerEntity;
+import com.entity.QuestionEntity;
 import com.entity.dto.AnswerDto;
+import com.entity.dto.QuestionDto;
 import com.entity.dto.ResponseDto;
 import com.entity.model.AnswerModel;
 import com.service.impl.AnswerServiceImpl;
+import com.service.impl.QuestionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -15,21 +19,31 @@ public class AnswerResources {
     AnswerServiceImpl answerService;
     @GetMapping
     public Object getAnswers(Pageable pageable) {
-        return ResponseDto.of(this.answerService.findAll(pageable).map(ans -> AnswerDto.EntityToDto(ans)), "Get all");
-    }
-    @PostMapping
-    public Object addAnswer(@RequestBody AnswerModel answerModel){
-        AnswerDto answerDto = AnswerDto.EntityToDto(answerService.add(answerModel));
-        return ResponseDto.of(answerDto,"add");
+        return ResponseDto.of(this.answerService.findAll(pageable).map(ans -> AnswerDto.EntityToDto(ans)), "Get all answers successfully");
     }
 
-    @PatchMapping(value = "{id}")
-    public Object updateAnswer(@PathVariable Long id,@RequestBody AnswerModel answerModel){
-        AnswerDto answerDto = AnswerDto.EntityToDto(answerService.update(answerModel));
-        return ResponseDto.of(answerDto,"update");
+    @GetMapping("/{id}")
+    public Object getAnswerById(@PathVariable("id") Long id) {
+        return ResponseDto.of(this.answerService.findById(id), "Get answer successfully");
     }
-    @DeleteMapping(value = "{id}")
-    public Object deleteAnswer(@PathVariable Long id){
-        return ResponseDto.of(answerService.deleteById(id),"Delete");
+
+    @PostMapping
+    public Object createAnswer(@RequestBody AnswerModel answerModel) {
+        AnswerEntity answerEntity = answerService.modelToEntity(answerModel);
+        AnswerDto answerDto = AnswerDto.EntityToDto(answerEntity);
+        return ResponseDto.of(answerDto, "add answer successfully");
+    }
+
+    @PatchMapping("/{id}")
+    public Object updateAnswer(@PathVariable("id") Long id, @RequestBody AnswerModel answerModel) {
+        answerModel.setId(id);
+        AnswerEntity answerEntity = AnswerServiceImpl.modelToEntity(answerModel);
+        AnswerDto answerDto = AnswerDto.EntityToDto(answerEntity);
+        return ResponseDto.of(answerDto, "update answer successfully");
+    }
+
+    @DeleteMapping("/{id}")
+    public Object deleteAnswer(@PathVariable("id") Long id) {
+        return ResponseDto.of(this.answerService.deleteById(id), "Delete answer successfully");
     }
 }

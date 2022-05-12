@@ -17,16 +17,16 @@ public class QuestionDto {
     private Long id;
     private boolean hasmore;
     private String content;
-    private SubjectEntity subjectEntity;
-    private List<AnswerDto> answerDtoList;
+    private Long subjectId;
+    private List<AnswerDto> answerDtos;
 
     public static QuestionDto EntityToDto(QuestionEntity questionEntity) {
         return QuestionDto.builder()
                 .id(questionEntity.getId())
                 .hasmore(questionEntity.isHasmore())
                 .content(questionEntity.getContent())
-                .subjectEntity(questionEntity.getSubjectEntity())
-                .answerDtoList(questionEntity.getListaAnswerEntity().stream().map(AnswerDto::EntityToDto).collect(java.util.stream.Collectors.toList()))
+                .subjectId(questionEntity.getSubjectEntity().getId())
+                .answerDtos(questionEntity.getListaAnswerEntity() == null ? null: questionEntity.getListaAnswerEntity().stream().map(AnswerDto::EntityToDto).collect(java.util.stream.Collectors.toList()))
                 .build();
     }
 }

@@ -17,10 +17,13 @@ import java.util.stream.Collectors;
 @Service
 public class AnswerServiceImpl implements com.service.AnswerService {
 
-    @Autowired
     private IAnswerRepository iAnswerRepository;
-    @Autowired
-    private IQuestionRepository questionRepository;
+    private static IQuestionRepository questionRepository;
+
+    public AnswerServiceImpl(IAnswerRepository iAnswerRepository, IQuestionRepository questionRepository) {
+        this.iAnswerRepository = iAnswerRepository;
+        this.questionRepository = questionRepository;
+    }
 
     @Override
     public List<AnswerEntity> findAll() {
@@ -39,38 +42,23 @@ public class AnswerServiceImpl implements com.service.AnswerService {
 
     @Override
     public AnswerEntity add(AnswerModel model) {
-        AnswerEntity answerEntity = new AnswerEntity();
-        answerEntity.setName(model.getName());
-        QuestionEntity questionEntity = questionRepository.findById(model.getQuestionEntity()).get();
-        answerEntity.setQuestionEntity(questionEntity);
-        answerEntity.setCorrect(model.isCorrect());
-        AnswerEntity answerSave = iAnswerRepository.save(answerEntity);
-        return answerSave;
+        AnswerEntity answerEntity = modelToEntity(model);
+        return iAnswerRepository.save(answerEntity);
     }
 
     @Override
-    public List<AnswerEntity> add(List<AnswerModel> model) {
-//        QuestionEntity ques = questionRepository.findById(model.get(0).getQuestionEntity())
-//                .orElseThrow(() -> new RuntimeException("Question id empty"));
-//
-//        List<AnswerEntity> list = model.stream().map(answerModel -> {
-//            AnswerEntity ans = AnswerModel.toEntity(answerModel);
-//            ans.setQuestionEntity(ques);
-//            return ans;
-//        }).collect(Collectors.toList());
-
-        return null;
+    public List<AnswerEntity> add(List<AnswerModel> answerModelList) {
+        List<AnswerEntity> answerEntityList = answerModelList.stream().map(AnswerServiceImpl::modelToEntity).collect(Collectors.toList());
+        return iAnswerRepository.saveAll(answerEntityList);
     }
 
     @Override
     public AnswerEntity update(AnswerModel model) {
-        AnswerEntity answerEntity = iAnswerRepository.findById(model.getId()).get();
+        AnswerEntity answerEntity = findById(model.getId());
         answerEntity.setName(model.getName());
-        QuestionEntity questionEntity = questionRepository.findById(model.getQuestionEntity()).get();
-        answerEntity.setQuestionEntity(questionEntity);
         answerEntity.setCorrect(model.isCorrect());
-        AnswerEntity answerSave = iAnswerRepository.save(answerEntity);
-        return answerSave;
+        answerEntity.setQuestionEntity(questionRepository.findById(model.getQuestionId()).get());
+        return iAnswerRepository.save(answerEntity);
     }
 
     @Override
@@ -81,5 +69,15 @@ public class AnswerServiceImpl implements com.service.AnswerService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public static AnswerEntity modelToEntity(AnswerModel answerModel){
+        if(answerModel == null) throw new IllegalArgumentException("AnswerModel null");
+        return AnswerEntity.builder()
+                .id(answerModel.getId())
+                .name(answerModel.getName())
+                .isCorrect(answerModel.isCorrect())
+                .questionEntity(answerModel.getQuestionId() == null ? null : questionRepository.findById(answerModel.getQuestionId()).get())
+                .build();
     }
 }

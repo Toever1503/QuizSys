@@ -47,12 +47,7 @@ public class SubjectController {
     }
 
     @DeleteMapping("/{id}")
-    public Object deleteSubject(@PathVariable Long id, Pageable page) {
-        if (subjectServiceEmpl.deleteById(id)) {
-            Page<SubjectDto> subjectDtoList = subjectServiceEmpl.findAll(page).map(SubjectDto::entityToDto);
-            return ResponseDto.of(subjectDtoList, "Delete subject success");
-        } else {
-            return ResponseDto.of(null, "Subject not found, delete subject failed");
-        }
+    public Object deleteSubject(@PathVariable Long id) {
+        return ResponseDto.of(subjectServiceEmpl.deleteById(id), "Delete subject successfully");
     }
 }

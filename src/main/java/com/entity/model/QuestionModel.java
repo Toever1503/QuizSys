@@ -17,17 +17,7 @@ public class QuestionModel {
     private Long id;
     private boolean hasmore;
     private String content;
-    private SubjectModel subjectModel;
+    private Long subjectId;
     private List<AnswerModel> anses;
 
-    public static QuestionEntity modelToEntity(QuestionModel questionModel) {
-
-        return QuestionEntity.builder()
-                .id(questionModel.getId())
-                .hasmore(questionModel.isHasmore())
-                .content(questionModel.getContent())
-                .subjectEntity(SubjectModel.modelToEntity(questionModel.getSubjectModel()))
-                .listaAnswerEntity(questionModel.anses.stream().map(AnswerModel::toEntity).collect(java.util.stream.Collectors.toList()) == null ? null : questionModel.anses.stream().map(AnswerModel::toEntity).collect(java.util.stream.Collectors.toList()))
-                .build();
-    }
 }

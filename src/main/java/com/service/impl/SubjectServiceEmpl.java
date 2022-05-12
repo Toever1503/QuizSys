@@ -1,7 +1,6 @@
 package com.service.impl;
 
 import com.entity.SubjectEntity;
-import com.entity.dto.SubjectDto;
 import com.entity.model.SubjectModel;
 import com.repository.ISubjectRepository;
 import com.service.ISubjectService;
@@ -16,6 +15,7 @@ import java.util.List;
 public class SubjectServiceEmpl implements ISubjectService {
     @Autowired
     ISubjectRepository subjectRepository;
+    private static QuestionServiceImpl questionService;
     @Override
     public List<SubjectEntity> findAll() {
         return subjectRepository.findAll();
@@ -33,7 +33,7 @@ public class SubjectServiceEmpl implements ISubjectService {
 
     @Override
     public SubjectEntity add(SubjectModel model) {
-        SubjectEntity subjectEntity = SubjectModel.modelToEntity(model);
+        SubjectEntity subjectEntity = modelToEntity(model);
         return subjectRepository.save(subjectEntity);
     }
 
@@ -53,7 +53,21 @@ public class SubjectServiceEmpl implements ISubjectService {
 
     @Override
     public boolean deleteById(Long id) {
-        this.subjectRepository.deleteById(id);
-        return true;
+        try {
+            this.subjectRepository.deleteById(id);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    public static SubjectEntity modelToEntity(SubjectModel subjectModel) {
+        if(subjectModel == null) throw new IllegalArgumentException("SubjectModel is null");
+        return SubjectEntity.builder()
+                .id(subjectModel.getId())
+                .maxTime(subjectModel.getMaxTime())
+                .totalQuestions(subjectModel.getTotalQuestions())
+                .listQuestionEntity(subjectModel.getQuestionModels() == null ? null : subjectModel.getQuestionModels().stream().map(QuestionServiceImpl::modelToEntity).collect(java.util.stream.Collectors.toList()))
+                .build();
     }
 }

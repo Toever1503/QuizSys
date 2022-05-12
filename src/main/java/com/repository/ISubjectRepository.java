@@ -10,5 +10,5 @@ import javax.security.auth.Subject;
 
 @Repository
 public interface ISubjectRepository extends JpaRepository<SubjectEntity, Long> {
-    public Page<SubjectEntity> findAll(Pageable pageable);
+    Page<SubjectEntity> findAll(Pageable pageable);
 }
