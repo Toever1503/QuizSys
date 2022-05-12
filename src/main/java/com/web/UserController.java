@@ -1,6 +1,7 @@
 package com.web;
 
 import com.jwt.JwtTokenProvider;
+import com.repository.IRoleRepository;
 import com.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
