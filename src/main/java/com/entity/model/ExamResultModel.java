@@ -20,11 +20,8 @@ public class ExamResultModel {
     private Long examedSubject;
 
     private Integer totalScore;
-
     private Integer correctAns;
-
     private Integer wrongAns;
-
     private Float totalTime;
 }
 

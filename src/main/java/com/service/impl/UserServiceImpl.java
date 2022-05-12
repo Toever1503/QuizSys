@@ -37,6 +37,7 @@ public class UserServiceImpl implements IUserService<UserEntity, UserModel, Long
 
     @Override
     public List<UserEntity> findAll() {
+
         return null;
     }
 
@@ -70,6 +71,12 @@ public class UserServiceImpl implements IUserService<UserEntity, UserModel, Long
         userEntity.setRoleEntityList(listRole);
         iUserRepository.save(userEntity);
         return userEntity;
+
+    }
+
+    @Override
+    public List<UserEntity> add(List<UserModel> model) {
+        return null;
     }
 
     @Override

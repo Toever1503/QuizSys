@@ -36,7 +36,9 @@ public class WebConfiguration implements WebMvcConfigurer {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://10.0.0.73:8080", "http://10.0.0.100:8080", "http://165.22.48.208")
+                        .allowedOriginPatterns("http://10.0.0.93:[*]", "http://192.168.144.1:[*]", "http://192.168.1.2:[*]")
+                        .allowedOrigins("http://10.0.0.93:3000/", "http://192.168.144.1:3000"
+                                , "http://192.168.1.2:3000")
                         .allowCredentials(true)
                         .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS");
             }
@@ -45,8 +47,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/images/**").addResourceLocations("file:".concat(ROOT_CONTENT_SYS));
-        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/images/**").addResourceLocations("file:".concat(ROOT_CONTENT_SYS + "/"));
     }
 
     @Bean
@@ -55,7 +56,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public JavaMailSender getMailSender(){
+    public JavaMailSender getMailSender() {
 
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");

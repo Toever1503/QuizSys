@@ -5,6 +5,8 @@ import com.entity.model.UserModel;
 import com.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
@@ -17,6 +19,7 @@ public class AdminResources {
     @Autowired
     IUserService iUserService;
 
+    @Transactional
     @PostMapping("/user/save")
     public ResponseEntity<?> saveOrUpdateUser(@RequestBody UserDTO userDTO){
         UserModel userModel = UserModel.builder()
