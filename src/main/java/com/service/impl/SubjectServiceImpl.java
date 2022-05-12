@@ -2,8 +2,6 @@ package com.service.impl;
 
 import com.entity.QuestionEntity;
 import com.entity.SubjectEntity;
-import com.entity.dto.SubjectDto;
-import com.entity.model.QuestionModel;
 import com.entity.model.SubjectModel;
 import com.repository.IQuestionRepository;
 import com.repository.ISubjectRepository;
@@ -13,12 +11,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
-public class SubjectServiceEmpl implements ISubjectService {
+public class SubjectServiceImpl implements ISubjectService {
 
     @Autowired
     ISubjectRepository subjectRepository;
@@ -28,7 +24,7 @@ public class SubjectServiceEmpl implements ISubjectService {
         SubjectEntity subjectEntity = new SubjectEntity();
         subjectEntity.setId(subjectModel.getId());
         subjectEntity.setMaxTime(subjectModel.getMaxTime());
-        subjectEntity.setContent(subjectModel.getNameSubject());
+        subjectEntity.setSubjectName(subjectModel.getSubjectName());
         subjectEntity.setTotalQuestions(subjectModel.getTotalQuestions());
         List<QuestionEntity> list = questionRepository.findAllBySubjectEntityId(subjectEntity.getId());
         subjectEntity.setListQuestionEntity(list);
@@ -63,6 +59,7 @@ public class SubjectServiceEmpl implements ISubjectService {
     @Override
     public SubjectEntity update(SubjectModel model) {
         SubjectEntity en  = findById(model.getId());
+        en.setSubjectName(model.getSubjectName());
         en.setMaxTime(model.getMaxTime());
         en.setTotalQuestions(model.getTotalQuestions());
         return subjectRepository.save(en);
@@ -73,5 +70,10 @@ public class SubjectServiceEmpl implements ISubjectService {
     public boolean deleteById(Long id) {
         this.subjectRepository.deleteById(id);
         return true;
+    }
+
+    @Override
+    public boolean deleteByIds(List<Long> id) {
+        return false;
     }
 }

@@ -19,6 +19,6 @@ public class SubjectModel {
     private Long id;
     private Integer maxTime;
     private Integer totalQuestions;
-    private List<QuestionModel> questionModels;
-    private String nameSubject;
+    private List<QuestionModel> listQuestionEntity;
+    private String subjectName;
 }

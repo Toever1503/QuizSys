@@ -1,4 +1,5 @@
 package com.entity.dto;
+
 import com.entity.SubjectEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,16 +16,16 @@ public class SubjectDto {
     private Long id;
     private Integer maxTime;
     private Integer totalQuestions;
-    private String nameSubject;
-    private List<QuestionDto> questionDtos;
+    private String subjectName;
+    private List<QuestionDto> listQuestionEntity;
 
     public static SubjectDto entityToDto(SubjectEntity subjectEntity) {
         return SubjectDto.builder()
                 .id(subjectEntity.getId())
                 .maxTime(subjectEntity.getMaxTime())
                 .totalQuestions(subjectEntity.getTotalQuestions())
-                .nameSubject(subjectEntity.getContent())
-                .questionDtos(subjectEntity.getListQuestionEntity() == null ? null : subjectEntity.getListQuestionEntity().stream().map(QuestionDto::EntityToDto).collect(java.util.stream.Collectors.toList()))
+                .subjectName(subjectEntity.getSubjectName())
+                .listQuestionEntity(subjectEntity.getListQuestionEntity() == null ? null : subjectEntity.getListQuestionEntity().stream().map(QuestionDto::EntityToDto).collect(java.util.stream.Collectors.toList()))
                 .build();
     }
 }

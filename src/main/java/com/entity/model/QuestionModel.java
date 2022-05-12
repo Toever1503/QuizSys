@@ -14,7 +14,7 @@ import java.util.List;
 public class QuestionModel {
     private Long id;
     private boolean hasmore;
-    private String nameSubject;
+    private String content;
     private Long idsubject;
     private List<AnswerModel> anses;
 }

@@ -22,7 +22,7 @@ public class FileUpload {
     public FileUpload(IImageService imageService) {
         this.imageService = imageService;
     }
-
+    @Transactional
     @GetMapping
     public Object getImages(Pageable page) {
         return ResponseDto.of(this.imageService.findAll(page), "Get all images");
@@ -31,6 +31,7 @@ public class FileUpload {
 
     @Transactional
     @PostMapping
+    @ResponseStatus(org.springframework.http.HttpStatus.CREATED)
     public Object uploadFile(@RequestPart(name = "file") MultipartFile file) throws IOException {
         if (file.isEmpty())
             throw new RuntimeException("Please select a file to upload");
@@ -39,6 +40,7 @@ public class FileUpload {
 
     @Transactional
     @PostMapping("batch")
+    @ResponseStatus(org.springframework.http.HttpStatus.CREATED)
     public Object uploadBatch(@RequestPart(name = "files") List<MultipartFile> files) {
         if (files.get(0).isEmpty())
             throw new RuntimeException("Please select a file to upload");
@@ -52,19 +54,19 @@ public class FileUpload {
         }
         return ResponseDto.of(imageEntities, "Upload batch files");
     }
-
+    @Transactional
     @PatchMapping("{id}")
     public Object deleteFile(@PathVariable Long id, @RequestPart(name = "file") MultipartFile file) throws IOException {
         if (file.isEmpty())
             throw new RuntimeException("Please select a file to upload");
         return imageService.update(ImageModel.builder().id(id).file(file).build());
     }
-
+    @Transactional
     @DeleteMapping("{id}")
     public Object deleteFile(@PathVariable Long id) {
         return ResponseDto.of(imageService.deleteById(id), "Delete file");
     }
-
+    @Transactional
     @DeleteMapping("batch/{ids}")
     public Object deleteBatch(@PathVariable List<Long> ids) {
         return ResponseDto.of(imageService.deleteByIds(ids), "Delete batch files");

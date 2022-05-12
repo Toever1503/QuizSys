@@ -59,6 +59,11 @@ public class ImageServiceImpl implements IImageService {
     }
 
     @Override
+    public List<ImageEntity> add(List<ImageModel> model) {
+        return null;
+    }
+
+    @Override
     public ImageEntity update(ImageModel model) {
         try {
             ImageEntity original = findById(model.getId());

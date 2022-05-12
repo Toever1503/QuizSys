@@ -3,6 +3,8 @@ package com.service.impl;
 import com.entity.AnswerEntity;
 import com.entity.QuestionEntity;
 import com.entity.SubjectEntity;
+import com.entity.dto.QuestionDto;
+import com.entity.dto.ResponseDto;
 import com.entity.model.AnswerModel;
 import com.entity.model.QuestionModel;
 import com.repository.IAnswerRepository;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,23 +30,22 @@ public class QuestionServiceImpl implements com.service.QuestionService {
     @Autowired
     IAnswerRepository iAnswerRepository;
 
-    AnswerEntity toEntity(AnswerModel answerModel){
+    AnswerEntity toEntity(AnswerModel answerModel) {
         AnswerEntity answer = new AnswerEntity();
         answer.setId(answerModel.getId());
         answer.setName(answerModel.getName());
         answer.setCorrect(answerModel.isCorrect());
         return answer;
     }
+
     @Override
     public List<QuestionEntity> findAll() {
         return questionRepository.findAll();
     }
-
     @Override
     public Page<QuestionEntity> findAll(Pageable page) {
         return questionRepository.findAll(page);
     }
-
     @Override
     public QuestionEntity findById(Long id) {
         return questionRepository.findById(id).get();
@@ -52,12 +54,11 @@ public class QuestionServiceImpl implements com.service.QuestionService {
     public QuestionEntity toEntity(QuestionModel questionModel) {
         QuestionEntity questionEntity = new QuestionEntity();
         questionEntity.setId(questionModel.getId());
-        questionEntity.setNameSubject(questionModel.getNameSubject());
+        questionEntity.setContent(questionModel.getContent());
         questionEntity.setHasmore(questionModel.isHasmore());
         questionEntity.setSubjectEntity(iSubjectRepository.findById(questionModel.getIdsubject()).get());
         return questionEntity;
     }
-
     @Override
     public QuestionEntity add(QuestionModel model) {
         SubjectEntity subjectEntity = this.iSubjectRepository.findById(model.getIdsubject())
@@ -81,7 +82,7 @@ public class QuestionServiceImpl implements com.service.QuestionService {
 
     @Override
     public QuestionEntity update(QuestionModel model) {
-        QuestionEntity orginal = questionRepository.findById(model.getId())
+        QuestionEntity original = questionRepository.findById(model.getId())
                 .orElseThrow(() -> new RuntimeException("Ques not found"));
         SubjectEntity subjectEntity = this.iSubjectRepository.findById(model.getIdsubject())
                 .orElseThrow(() -> new RuntimeException("Subject not found"));
@@ -89,20 +90,20 @@ public class QuestionServiceImpl implements com.service.QuestionService {
         List<Long> ansIds = new ArrayList<>();
         List<AnswerEntity> ans = model.getAnses().stream().map(ansModel -> {
             AnswerEntity answerEntity = toEntity(ansModel);
-            answerEntity.setQuestionEntity(orginal);
+            answerEntity.setQuestionEntity(original);
             if (ansModel.getId() != null)
                 ansIds.add(ansModel.getId());
             return answerEntity;
         }).collect(Collectors.toList());
         if (!ansIds.isEmpty())
             this.iAnswerRepository.deleteAllByIdNotIn(ansIds);
-        orginal.setListaAnswerEntity(ans);
-        orginal.setSubjectEntity(subjectEntity);
+        original.setListaAnswerEntity(ans);
+        original.setSubjectEntity(subjectEntity);
 
-        orginal.setHasmore(model.isHasmore());
-        orginal.setNameSubject(model.getNameSubject());
-        orginal.setSubjectEntity(subjectEntity);
-        return questionRepository.save(orginal);
+        original.setHasmore(model.isHasmore());
+        original.setContent(model.getContent());
+        original.setSubjectEntity(subjectEntity);
+        return questionRepository.save(original);
     }
 
     @Override
@@ -113,6 +114,11 @@ public class QuestionServiceImpl implements com.service.QuestionService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public boolean deleteByIds(List<Long> id) {
+        return false;
     }
 
     @Override

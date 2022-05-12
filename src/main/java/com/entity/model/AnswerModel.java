@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 public class AnswerModel {
     private Long id;
     private String name;
-    private boolean correct;
+    private boolean isCorrect;
 }

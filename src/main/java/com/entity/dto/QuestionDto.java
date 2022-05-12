@@ -23,7 +23,7 @@ public class QuestionDto {
         return QuestionDto.builder()
                 .id(questionEntity.getId())
                 .hasmore(questionEntity.isHasmore())
-                .content(questionEntity.getNameSubject())
+                .content(questionEntity.getContent())
                 .idSubjectEntity(questionEntity.getSubjectEntity().getId())
                 .anses(questionEntity.getListaAnswerEntity() != null ? questionEntity.getListaAnswerEntity().stream().map(AnswerDto::EntityToDto).collect(java.util.stream.Collectors.toList()) : null)
                 .build();

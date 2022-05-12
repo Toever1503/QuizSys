@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class EXamResultServiceImpl implements IExamResultService {
+public class ExamResultServiceImpl implements IExamResultService {
     private final ExamResultRepository examResultRepository;
 
-    public EXamResultServiceImpl(ExamResultRepository examResultRepository) {
+    public ExamResultServiceImpl(ExamResultRepository examResultRepository) {
         this.examResultRepository = examResultRepository;
     }
 

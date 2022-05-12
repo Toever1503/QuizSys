@@ -1,6 +1,5 @@
 package com.web;
 
-import com.entity.QuestionEntity;
 import com.entity.dto.QuestionDto;
 import com.entity.dto.ResponseDto;
 import com.entity.model.QuestionModel;
@@ -32,12 +31,14 @@ public class QuestionResources {
     }
     @PostMapping("batch")
     @Transactional
+    @ResponseStatus(org.springframework.http.HttpStatus.CREATED)
     public Object addQuestions(@RequestBody List<QuestionModel> questionModel){
         List<QuestionDto> questionDto = questionService.add(questionModel).stream().map(x -> QuestionDto.EntityToDto(x)).collect(Collectors.toList());
         return ResponseDto.of(questionDto,"add");
     }
     @PatchMapping(value = "{id}")
     @Transactional
+
     public Object updateQuestion(@PathVariable Long id,@RequestBody QuestionModel questionModel){
         questionModel.setId(id);
         QuestionDto questionDto = QuestionDto.EntityToDto(questionService.update(questionModel));

@@ -14,15 +14,15 @@ import lombok.NoArgsConstructor;
 public class AnswerDto {
     private Long id;
     private String name;
-    private boolean Correct;
-    private Long idQuestion;
+    private boolean isCorrect;
+    private QuestionDto questionEntity;
 
     public static AnswerDto EntityToDto(AnswerEntity answerEntity) {
         return AnswerDto.builder()
                 .id(answerEntity.getId())
                 .name(answerEntity.getName())
-                .Correct(answerEntity.isCorrect())
-                .idQuestion(answerEntity.getQuestionEntity().getId())
+                .isCorrect(answerEntity.isCorrect())
+                .questionEntity(QuestionDto.EntityToDto(answerEntity.getQuestionEntity()))
                 .build();
     }
 }
