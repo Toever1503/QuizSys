@@ -26,6 +26,7 @@ public class UserEntity {
     @Column(name = "reset_password_token")
     private String resetPassWordToken;
 
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "id_user"),

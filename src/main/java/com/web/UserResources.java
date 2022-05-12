@@ -37,36 +37,28 @@ public class UserResources {
 
 
     @PostMapping("/login")
-    public LoginResponse getResponseAfterLogin(@RequestBody LoginRequest loginRequest) throws Exception {
-        UserEntity userEntity = iUserRepository.findByUsernameOrEmail(loginRequest.getUsername());
-        if (userEntity == null){
-            throw new Exception("User already exists");
-        }else {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginRequest.getUsername(),
-                            loginRequest.getPassword()
-                    )
-            );
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-            String jwtToken = jwtTokenProvider.generateTokenFormUsername(userDetails.getUsername());
-            List<String> roles = userDetails.getAuthorities().stream()
-                    .map(item -> item.getAuthority())
-                    .collect(Collectors.toList());
-            return LoginResponse.builder()
-                    .id(userDetails.getUserEntity().getId())
-                    .username(userDetails.getUsername())
-                    .email(userDetails.getEmail())
-                    .accessToken(jwtToken)
-                    .tokenType(new LoginResponse().getTokenType())
-                    .role(roles)
-                    .build();
-        }
+    public LoginResponse getResponseAfterLogin(@RequestBody LoginRequest loginRequest){
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getUsername(),
+                        loginRequest.getPassword()
+                )
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        String jwtToken = jwtTokenProvider.generateTokenFormUsername(userDetails.getUsername());
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(item -> item.getAuthority())
+                .collect(Collectors.toList());
 
-
-
-
+        return LoginResponse.builder()
+                .id(userDetails.getUserEntity().getId())
+                .username(userDetails.getUsername())
+                .email(userDetails.getEmail())
+                .accessToken(jwtToken)
+                .tokenType(new LoginResponse().getTokenType())
+                .role(roles)
+                .build();
     }
     @PostMapping("/register")
     public RegisterRequest register(@RequestBody RegisterRequest request) throws Exception {

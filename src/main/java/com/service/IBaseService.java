@@ -17,4 +17,5 @@ public interface IBaseService<T, M, K> {
     T update(M model);
 
     boolean deleteById(K id);
+    boolean deleteByIds(List<K> id);
 }

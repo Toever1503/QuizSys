@@ -18,9 +18,12 @@ import java.util.Properties;
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
 
+    public static String HOST;
     public static String ROOT_CONTENT_SYS;
 
-    WebConfiguration(@Value("${web-content.root-content}") String ROOT_CONTENT_SYS) {
+    WebConfiguration(@Value("${web-content.root-content}") String ROOT_CONTENT_SYS,
+                     @Value("${web-content.host}") String HOST) {
+        WebConfiguration.HOST = HOST;
         ROOT_CONTENT_SYS = new File(ROOT_CONTENT_SYS).getAbsolutePath();
         System.out.println(ROOT_CONTENT_SYS);
         WebConfiguration.ROOT_CONTENT_SYS = ROOT_CONTENT_SYS;
