@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 public class ForgotPasswordRequest {
-    private String username;
+    private String email;
 }

@@ -57,6 +57,7 @@ public class SecurityUtil implements ApplicationListener<ContextRefreshedEvent> 
                     "ADMINISTRATOR",
                     "administrator@gmail.com",
                     null,
+                    true,
                     null,
                     listRoleAdministrator ));
         }
@@ -68,6 +69,7 @@ public class SecurityUtil implements ApplicationListener<ContextRefreshedEvent> 
                     "ADMIN",
                     "admin@gmail.com",
                     null,
+                    true,
                     null,
                     listRoleAdmin ));
         }
@@ -79,6 +81,7 @@ public class SecurityUtil implements ApplicationListener<ContextRefreshedEvent> 
                     "USER",
                     "user@gmail.com",
                     null,
+                    true,
                     null,
                     listRoleUser ));
         }
