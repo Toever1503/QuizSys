@@ -29,15 +29,17 @@ public class ForgotPasswordResources {
 
     @PostMapping("/forgot-password")
     public String forgotPassword(@RequestBody ForgotPasswordRequest request) {
-        UserEntity userEntity = iUserRepository.findByUsernameOrEmail(request.getUsername());
+        UserEntity userEntity = iUserRepository.findByUsernameOrEmail(request.getEmail());
         if (userEntity != null) {
             String tokenString = RandomString.make(45);
 //                iMailService.sendEmail(userEntity.getEmail(), tokenString);
-            iMailService.sendTextMail("chiphongteo1123@gmail.com", userEntity.getEmail(), "Subject", "Content", tokenString);
+            iMailService.sendTextMail("chiphongteo1123@gmail.com", userEntity.getEmail(), "Reset PassWord !!!", "Mail reset password", tokenString);
             iUserService.updateUserToken(userEntity.getEmail(), tokenString);
+            return "Send mail successfull !";
         } else {
+            return "User already exist !";
         }
-        return null;
+
     }
 
     @PostMapping("/reset_password")

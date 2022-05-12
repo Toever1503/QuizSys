@@ -1,7 +1,9 @@
 package com.service.impl;
 
+import com.entity.RoleEntity;
 import com.entity.UserEntity;
 import com.entity.model.UserModel;
+import com.repository.IRoleRepository;
 import com.repository.IUserRepository;
 import com.service.IBaseService;
 import com.service.IMailService;
@@ -13,8 +15,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,9 +27,14 @@ public class UserServiceImpl implements IUserService<UserEntity, UserModel, Long
     IUserRepository iUserRepository;
     @Autowired
     IMailService iMailService;
+    @Autowired
+    IRoleRepository iRoleRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Override
     public List<UserEntity> findAll() {
+
         return null;
     }
 
@@ -41,7 +50,22 @@ public class UserServiceImpl implements IUserService<UserEntity, UserModel, Long
 
     @Override
     public UserEntity add(UserModel model) {
-        return null;
+        UserEntity userEntity = UserEntity.builder()
+                .id(model.getId())
+                .username(model.getUsername())
+                .password(passwordEncoder.encode(model.getPassword()))
+                .email(model.getEmail())
+                .fullname(model.getFullname())
+                .avatar(model.getAvatar())
+                .enabled(true)
+                .build();
+        List<RoleEntity> listRole = new ArrayList<>();
+        model.getRoleIdList().stream().forEach(role ->{
+            listRole.add(iRoleRepository.findById(role).get());
+        });
+        userEntity.setRoleEntityList(listRole);
+        iUserRepository.save(userEntity);
+        return userEntity;
     }
 
     @Override

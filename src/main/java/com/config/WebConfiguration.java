@@ -72,14 +72,14 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Bean
     public JavaMailSender getMailSender(){
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-//        mailSender.setHost("email-smtp.us-west-1.amazonaws.com");
-//        mailSender.setPort(587);
-//        mailSender.setUsername("AKIA5DWEWGJIHJJZGCXN");
-//        mailSender.setPassword("BP+kKjV7GuP8WGRY3Congrx7PxS+CQ2r2vASBCXvx/Us");
-        mailSender.setHost("smtp.gmail.com");
+        mailSender.setHost("email-smtp.us-west-1.amazonaws.com");
         mailSender.setPort(587);
-        mailSender.setUsername("chiphongteo1123@gmail.com");
-        mailSender.setPassword("phongcao123");
+        mailSender.setUsername("AKIA5DWEWGJIHJJZGCXN");
+        mailSender.setPassword("BP+kKjV7GuP8WGRY3Congrx7PxS+CQ2r2vASBCXvx/Us");
+//        mailSender.setHost("smtp.gmail.com");
+//        mailSender.setPort(587);
+//        mailSender.setUsername("chiphongteo1123@gmail.com");
+//        mailSender.setPassword("phongcao123");
 
         Properties javaMailProperties = new Properties();
         javaMailProperties.put("mail.transport.protocol", "smtp");

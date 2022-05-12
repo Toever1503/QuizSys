@@ -60,6 +60,7 @@ public class UserResources {
                 .role(roles)
                 .build();
     }
+
     @PostMapping("/register")
     public RegisterRequest register(@RequestBody RegisterRequest request) throws Exception {
         UserEntity userEntity = iUserRepository.findByUsernameOrEmail(request.getUsername());
@@ -69,8 +70,15 @@ public class UserResources {
             RoleEntity roleUser = iRoleRepository.getById(3L);
             List<RoleEntity> listRoleUser = new ArrayList<>();
             listRoleUser.add(roleUser);
-            iUserRepository.save(new UserEntity(null,request.getUsername(),passwordEncoder.encode(request.getPassword()),null,request.getUsername()+"@gmail.com",null,null,listRoleUser));
-
+            iUserRepository.save(new UserEntity(
+                    null,
+                    request.getUsername(),
+                    passwordEncoder.encode(request.getPassword()),
+                    request.getFullname(),
+                    request.getEmail(),
+                    null,
+                    true,
+                    null,listRoleUser));
         }
         return request;
     }
