@@ -2,6 +2,7 @@ package com.web;
 
 import com.entity.RoleEntity;
 import com.entity.UserEntity;
+import com.entity.dto.ResponseDto;
 import com.jwt.JwtTokenProvider;
 import com.jwt.payload.request.LoginRequest;
 import com.jwt.payload.request.RegisterRequest;
@@ -38,7 +39,7 @@ public class UserResources {
 
 
     @PostMapping("/login")
-    public LoginResponse getResponseAfterLogin(@RequestBody LoginRequest loginRequest) {
+    public Object getResponseAfterLogin(@RequestBody LoginRequest loginRequest) throws Exception {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(),
@@ -47,24 +48,26 @@ public class UserResources {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        if (userDetails == null) throw new Exception("User not found !");
         String jwtToken = jwtTokenProvider.generateTokenFormUsername(userDetails.getUsername());
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        return LoginResponse.builder()
+        return ResponseDto.of(LoginResponse.builder()
                 .id(userDetails.getUserEntity().getId())
                 .username(userDetails.getUsername())
                 .email(userDetails.getEmail())
                 .accessToken(jwtToken)
                 .tokenType(new LoginResponse().getTokenType())
                 .role(roles)
-                .build();
+                .build(),"Login");
+
     }
 
 
     @PostMapping("/register")
-    public RegisterRequest register(@RequestBody RegisterRequest request) throws Exception {
+    public Object register(@RequestBody RegisterRequest request) throws Exception {
         UserEntity userEntity = iUserRepository.findByUsernameOrEmail(request.getUsername());
         if (userEntity != null) {
             throw new Exception("User already exists");
@@ -82,7 +85,7 @@ public class UserResources {
                     true,
                     null,listRoleUser));
         }
-        return request;
+        return ResponseDto.of(new RegisterRequest(request.getUsername(), null,request.getEmail(), request.getFullname()),"Register");
     }
 
 
