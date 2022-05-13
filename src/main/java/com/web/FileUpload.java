@@ -36,7 +36,7 @@ public class FileUpload {
     @Transactional
     @PostMapping
     @ResponseStatus(org.springframework.http.HttpStatus.CREATED)
-    public Object uploadFile(@ApiParam(name = "upload 1 file 1 time")@RequestPart(name = "file") MultipartFile file) throws IOException {
+    public Object uploadFile(@RequestPart(name = "file") MultipartFile file) throws IOException {
         if (file.isEmpty())
             throw new RuntimeException("Please select a file to upload");
         return imageService.add(ImageModel.builder().file(file).build());
@@ -45,7 +45,7 @@ public class FileUpload {
     @Transactional
     @PostMapping("batch")
     @ResponseStatus(org.springframework.http.HttpStatus.CREATED)
-    public Object uploadBatch(@ApiParam(name = "upload batch file 1 time")@RequestPart(name = "files") List<MultipartFile> files) {
+    public Object uploadBatch(@RequestPart(name = "files") List<MultipartFile> files) {
         if (files.get(0).isEmpty())
             throw new RuntimeException("Please select a file to upload");
         List<ImageEntity> imageEntities = new ArrayList<ImageEntity>();
@@ -61,7 +61,7 @@ public class FileUpload {
 
     @Transactional
     @PatchMapping("{id}")
-    public Object uploadFile(@ApiParam(name = "id of file", example = "1")@PathVariable Long id,@ApiParam(name = "new file to replace original file") @RequestPart(name = "file") MultipartFile file) throws IOException {
+    public Object uploadFile(@PathVariable Long id,@ApiParam(name = "new file to replace original file") @RequestPart(name = "file") MultipartFile file) throws IOException {
         if (file.isEmpty())
             throw new RuntimeException("Please select a file to upload");
         return imageService.update(ImageModel.builder().id(id).file(file).build());
@@ -69,13 +69,13 @@ public class FileUpload {
 
     @Transactional
     @DeleteMapping("{id}")
-    public Object deleteFile(@ApiParam(name = "id of file", example = "1") @PathVariable Long id) {
+    public Object deleteFile(@PathVariable Long id) {
         return ResponseDto.of(imageService.deleteById(id), "Delete file");
     }
 
     @Transactional
     @DeleteMapping("batch/{ids}")
-    public Object deleteBatch(@ApiParam(name = "array id of file", example = "1,2,3") @PathVariable List<Long> ids) {
+    public Object deleteBatch(@PathVariable List<Long> ids) {
         return ResponseDto.of(imageService.deleteByIds(ids), "Delete batch files");
     }
 }
