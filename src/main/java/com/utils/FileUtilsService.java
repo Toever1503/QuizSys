@@ -36,7 +36,7 @@ public class FileUtilsService implements WebMvcConfigurer {
         uploadFile = uploadFile.replace(WebConfiguration.ROOT_CONTENT_SYS, "");
         System.out.println("uploadFile");
         System.out.println(uploadFile);
-        return uploadFile.replace("//", "/");
+        return uploadFile.replace("\\/\\/", "/");
     }
 
     public static boolean deleteFile(String fileName) {
