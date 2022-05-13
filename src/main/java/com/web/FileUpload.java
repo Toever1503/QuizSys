@@ -3,10 +3,8 @@ package com.web;
 import com.entity.ImageEntity;
 import com.entity.dto.ResponseDto;
 import com.entity.model.ImageModel;
-import com.service.IImageService;
+import com.service.IFileService;
 import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.Example;
-import io.swagger.annotations.ExampleProperty;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +18,9 @@ import java.util.List;
 @RequestMapping("api/files")
 public class FileUpload {
 
-    private final IImageService imageService;
+    private final IFileService imageService;
 
-    public FileUpload(IImageService imageService) {
+    public FileUpload(IFileService imageService) {
         this.imageService = imageService;
     }
 
