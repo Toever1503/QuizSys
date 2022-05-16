@@ -3,7 +3,8 @@ package com.web;
 import com.entity.ImageEntity;
 import com.entity.dto.ResponseDto;
 import com.entity.model.ImageModel;
-import com.service.IImageService;
+import com.service.IFileService;
+import io.swagger.annotations.ApiParam;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -17,14 +18,15 @@ import java.util.List;
 @RequestMapping("api/files")
 public class FileUpload {
 
-    private final IImageService imageService;
+    private final IFileService imageService;
 
-    public FileUpload(IImageService imageService) {
+    public FileUpload(IFileService imageService) {
         this.imageService = imageService;
     }
+
     @Transactional
     @GetMapping
-    public Object getImages(Pageable page) {
+    public Object getImages(@ApiParam(example = "?page=0&size=10&sort=id,desc") Pageable page) {
         return ResponseDto.of(this.imageService.findAll(page), "Get all images");
     }
 
@@ -54,18 +56,21 @@ public class FileUpload {
         }
         return ResponseDto.of(imageEntities, "Upload batch files");
     }
+
     @Transactional
     @PatchMapping("{id}")
-    public Object deleteFile(@PathVariable Long id, @RequestPart(name = "file") MultipartFile file) throws IOException {
+    public Object uploadFile(@PathVariable Long id,@ApiParam(name = "new file to replace original file") @RequestPart(name = "file") MultipartFile file) throws IOException {
         if (file.isEmpty())
             throw new RuntimeException("Please select a file to upload");
         return imageService.update(ImageModel.builder().id(id).file(file).build());
     }
+
     @Transactional
     @DeleteMapping("{id}")
     public Object deleteFile(@PathVariable Long id) {
         return ResponseDto.of(imageService.deleteById(id), "Delete file");
     }
+
     @Transactional
     @DeleteMapping("batch/{ids}")
     public Object deleteBatch(@PathVariable List<Long> ids) {

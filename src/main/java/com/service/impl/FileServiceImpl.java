@@ -3,8 +3,8 @@ package com.service.impl;
 import com.config.WebConfiguration;
 import com.entity.ImageEntity;
 import com.entity.model.ImageModel;
-import com.repository.ImageRepository;
-import com.service.IImageService;
+import com.repository.FileRepository;
+import com.service.IFileService;
 import com.utils.FileUtilsService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,10 +15,10 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
-public class ImageServiceImpl implements IImageService {
-    private final ImageRepository imageRepository;
+public class FileServiceImpl implements IFileService {
+    private final FileRepository imageRepository;
 
-    public ImageServiceImpl(ImageRepository imageRepository) {
+    public FileServiceImpl(FileRepository imageRepository) {
         this.imageRepository = imageRepository;
     }
 
